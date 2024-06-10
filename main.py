@@ -16,7 +16,7 @@ def callback(ch, method, properties, body):
     print(f"Received: {body}")
     img_path = body.decode()
     result = scan_image(img_path)
-    response = f"result {result[0]} {result[1]}"
+    response = f"result {result[0]} {result[1]} {img_path}"
     print(f"Sending: {response}")
     channel.basic_publish(exchange=exchange, routing_key=send_to, body=response)
 

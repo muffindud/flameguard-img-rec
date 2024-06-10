@@ -33,4 +33,4 @@ def scan_image(img_path: str) -> tuple:
     idx = argmax(pred)
     prob = pred[0][idx].item()*100
 
-    return class_names[idx], prob
+    return class_names[idx], round(prob, 2)
