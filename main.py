@@ -1,7 +1,11 @@
+#!venv/bin/python3
 from pika import BlockingConnection, ConnectionParameters
 from dotenv import load_dotenv
+from warnings import filterwarnings
 
 from src.model import scan_image
+
+filterwarnings("ignore")
 
 exchange = "img_rec"
 send_to = "receive"
@@ -9,9 +13,11 @@ received_from = "send"
 
 
 def callback(ch, method, properties, body):
+    print(f"Received: {body}")
     img_path = body.decode()
     result = scan_image(img_path)
     response = f"result {result[0]} {result[1]}"
+    print(f"Sending: {response}")
     channel.basic_publish(exchange=exchange, routing_key=send_to, body=response)
 
 
